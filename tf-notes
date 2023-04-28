@@ -1,0 +1,50 @@
+Notes : 
+Delete Ingresses :
+
+terragrunt state rm `terragrunt state list | grep kubernetes_ingress_v1`
+
+Delete namespace 
+terragrunt state rm module.aks_setup.kubernetes_namespace.this
+terragrunt state rm module.aks_setup.kubernetes_namespace.instrumentation
+
+delete namespace from aks "lens" this will delete the underlying chils for secret and service account as well.
+
+delete secret :
+terragrunt state rm module.aks_setup.kubernetes_secret.app_insights_config[0]
+
+delete service account :
+terragrunt state rm `terragrunt state list | grep kubernetes_service_account`
+
+
+delete
+
+terragrunt state rm module.aks_setup.kubectl_manifest.secret_provider_class[0]
+
+delete 
+ terragrunt state rm module.aks_setup.helm_release.ingress[0]
+ 
+delete 
+
+kubernetes_deployment.ssu-egress-dispatcher
+kubernetes_deployment.ssu-ingress-dispatcher
+
+terragrunt state rm `terragrunt state list | grep kubernetes_deployment`
+
+
+in use subnet can not be updated 
+
+a210298-s3-musea2-snet-agw-ssu2-
+
+
+delete subnet / royte table and nsg
+
+module.subscription_manager_subnet.azurerm_network_security_group.this
+
+module.subscription_manager_subnet.azurerm_route_table.this
+
+module.subscription_manager_subnet
+
+module.subscription_manager_subnet
+
+
+module.subscription_manager_subnet
