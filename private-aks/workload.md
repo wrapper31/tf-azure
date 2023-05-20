@@ -14,6 +14,8 @@ There are four parts to get this working end-to-end in a Kubernetes cluster:
 * The Kubernetes tokens are exchanged for Azure AD access tokens and used to access Azure AD protected resources such as Azure and Microsoft Graph.
 
 ![Alt text](./img/cluster.png)
+![image](https://github.com/wrapper31/tf-azure/assets/20044786/8a99a16e-0906-4635-8187-9e186528d49a)
+
 
 ## End-to-end walk-through
 
@@ -137,3 +139,5 @@ az aks command invoke   --resource-group <resource_group>  --name <aks_cluster_n
 | /var/run/secrets/azure/tokens/azure-identity-token  | The path of the projected service account token file. |  
 
 ![Alt text](./img/kubernetesazidentity.png)
+![image](https://github.com/wrapper31/tf-azure/assets/20044786/14ca2fab-c906-4b18-aa5b-e5eedd91148b)
+
