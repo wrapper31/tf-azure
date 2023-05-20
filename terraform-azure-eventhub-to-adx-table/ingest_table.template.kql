@@ -1,0 +1,61 @@
+//
+// this is a templatized KQL file; Terraform will fill in expressions
+// See https://www.terraform.io/language/functions/templatefile?_ga=2.32452094.1792883201.1643044268-974289976.1634357398
+//
+// ADX will return success if this table already exists, so this is safe to run again,
+// but it will not update the table structure if it changes
+
+//Specific to UCP environment and CloudEvent input to Event Hub
+%{ for table_name in ingest_table_names ~}
+.create-merge table ${table_name} (
+    id: string,
+    reqid: string,
+    source: string,
+    sink: string,
+    type: string,
+    datacontenttype: string,
+    dataschema: string,
+    data_base64: string,
+    data: dynamic,
+    specversion: string,
+    subject: string,
+    eventHubEnqueuedTime: datetime,
+	eventHubPartitionKey: string,
+	eventHubPublisher: string,
+	eventHubOffset: string,
+	eventHubSequenceNumber: long,
+    sourceLocation: string
+)
+
+//Specific to UCP environment and CloudEvent input to Event Hub
+.create-or-alter table ${table_name} ingestion json mapping '${table_name}_mapping' ```
+[  
+    {"column":"id", "Properties": {"Path":"$['id']"}},
+    {"column":"reqid", "Properties": {"Path":"$['reqid']"}},
+    {"column":"source", "Properties": {"Path":"$['source']"}},
+    {"column":"sink", "Properties": {"Path":"$['sink']"}},
+    {"column":"type", "Properties": {"Path": "$['type']"}},
+    {"column":"datacontenttype", "Properties": {"Path": "$['datacontenttype']"}},
+    {"column":"dataschema", "Properties": {"Path": "$['dataschema']"}},
+    {"column":"data_base64", "Properties": {"Path": "$['data_base64']"}},
+    {"column":"data", "Properties": {"Path": "$['data']"}},
+    {"column":"specversion", "Properties": {"Path": "$['specversion']"}},
+    {"column":"subject", "Properties": {"Path": "$['subject']"}},
+    {"column":"eventHubEnqueuedTime", "Properties":{"Path":"$['x-opt-enqueued-time']"}},
+    {"column":"eventHubPartitionKey", "Properties":{"Path":"$['x-opt-partition-key']"}},
+    {"column":"eventHubPublisher", "Properties":{"Path":"$['x-opt-publisher']"}},
+    {"column":"eventHubOffset", "Properties":{"Path":"$['x-opt-offset']"}},
+    {"column":"eventHubSequenceNumber", "Properties":{"Path":"$['x-opt-sequence-number']"}},
+    {"column":"sourceLocation", "Properties":{"transform":"SourceLocation"}}
+] ```
+
+
+// Update table ingestion batching policy for lower latency
+// https://learn.microsoft.com/en-us/azure/data-explorer/kusto/management/batchingpolicy
+.alter table ${table_name} policy ingestionbatching
+```
+{
+    "MaximumBatchingTimeSpan" : "${maximum_batching_timespan}"
+}
+```
+%{ endfor ~}
