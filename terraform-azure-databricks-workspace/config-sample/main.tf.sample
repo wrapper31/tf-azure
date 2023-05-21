@@ -1,0 +1,42 @@
+terraform {
+  required_version = "1.2.9"
+  required_providers {
+    azapi = {
+      source = "Azure/azapi"
+    }
+  }
+}
+
+provider "azurerm" {
+  #subscription_id = "a94d0730-8ce5-4cfd-921d-026bf0da44b0"
+  storage_use_azuread = true
+  features {}
+}
+
+module "terraform-azure-databricks-workspace" {
+  source                         = "../terraform-azure-databricks-workspace"
+  env                            = var.env
+  asms                           = var.asms
+  location                       = var.location
+  location_prefix                = var.location_prefix
+  resource_group_name            = var.resource_group_name
+  account_tier                   = var.account_tier
+  account_replication_type       = var.account_replication_type
+  allow_ip_rules                 = var.allow_ip_rules
+  descriptor                     = var.descriptor
+  subnet_id                      = var.subnet_id
+  allowed_subnet_ids             = var.allowed_subnet_ids
+  vnet_id                        = var.vnet_id
+  dbw_subnet_public_name         = var.dbw_subnet_public_name
+  dbw_subnet_public_nsg_id       = var.dbw_subnet_public_nsg_id
+  dbw_subnet_private_name        = var.dbw_subnet_private_name
+  dbw_subnet_private_nsg_id      = var.dbw_subnet_private_nsg_id
+  dbw_subnet_private_endpoint_id = var.dbw_subnet_private_endpoint_id
+  groups                         = var.groups
+  users                          = var.users
+  group_users                    = var.group_users
+  enable_diagnostics             = var.enable_diagnostics
+  log_analytics_resource_id      = var.log_analytics_resource_id
+  diagnostic_logs                = var.diagnostic_logs
+  tags                           = var.tags
+}
