@@ -1,0 +1,73 @@
+env                            = "d1"
+asms                           = "a213222"
+location                       = "EastUS2"
+location_prefix                = "musea2"
+resource_group_name            = "a213222-d1-musea2-rg001"
+account_tier                   = "Standard"
+account_replication_type       = "GZRS"
+allow_ip_rules                 = [""]
+descriptor                     = "raghu"
+subnet_id                      = ""
+allowed_subnet_ids             = []
+vnet_id                        = ""
+dbw_subnet_public_name         = ""
+dbw_subnet_public_nsg_id       = ""
+dbw_subnet_private_name        = ""
+dbw_subnet_private_nsg_id      = ""
+dbw_subnet_private_endpoint_id = ""
+tags = {
+    "GM ASMS No"              = "a213222"
+    "GM Business Criticality" = "Critical"
+}
+
+groups = {
+    super_group = {
+        display_name               = "Super Group"
+        allow_cluster_create       = true
+        allow_instance_pool_create = true
+        databricks_sql_access      = false
+        workspace_access           = false
+    }
+
+    vip_group = {
+        display_name               = "VIP Group"
+        allow_cluster_create       = true
+        allow_instance_pool_create = true
+        databricks_sql_access      = false
+        workspace_access           = true
+    }
+}
+
+users = {
+    scott_thompson = {
+        # Replace GMID_SCOTT with proper GMID
+        user_name    = ""
+        display_name = ""
+    }
+
+    naveen_kichili = {
+         # Replace GMID_NAVEEN with proper GMID
+        user_name    = ""
+        display_name = ""
+    }
+}
+
+group_users = {
+    gu1 = {
+        group_key = "super_group"
+        user_key  = ""
+    }
+
+    gu2 = {
+        group_key = "vip_group"
+        user_key  = ""
+    }
+
+    gu3 = {
+        group_key = "super_group"
+        user_key  = ""
+    }
+}
+
+enable_diagnostics = true
+log_analytics_resource_id = ""
